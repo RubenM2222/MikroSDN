@@ -11,7 +11,7 @@ namespace MikroSDN
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
             var router = new RouterDevice
             {
@@ -21,14 +21,17 @@ namespace MikroSDN
                 Password = "123456"
             };
 
-            _api = new MikrotikService(router);
-
-            var interfaceService = new InterfaceService(_api);
+            var api = new MikrotikService(router);
+            var interfaceService = new InterfaceService(api);
 
             try
             {
-                var result = await interfaceService.GetAllInterfaces();
-                MessageBox.Show(result);
+                var interfaces = await interfaceService.GetAllInterfaces();
+
+                foreach (var i in interfaces)
+                {
+                    Console.WriteLine(i.name);
+                }
             }
             catch (Exception ex)
             {

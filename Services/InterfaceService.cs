@@ -17,7 +17,7 @@ namespace MikroSDN.Services
             _api = api;
         }
 
-        public async Task<string> GetAllInterfaces()
+        public async Task<List<InterfaceModel>> GetAllInterfaces()
         {
             var json = await _api.GetAsync("interface");
             return JsonConvert.DeserializeObject<List<InterfaceModel>>(json);

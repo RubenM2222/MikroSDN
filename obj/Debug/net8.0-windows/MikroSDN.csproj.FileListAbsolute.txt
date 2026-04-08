@@ -1,0 +1,6 @@
+C:\Users\2222068\source\repos\MikroSDN\MikroSDN\obj\Debug\net8.0-windows\MikroSDN.FormMain.resources
+C:\Users\2222068\source\repos\MikroSDN\MikroSDN\obj\Debug\net8.0-windows\MikroSDN.csproj.GenerateResource.cache
+C:\Users\2222068\source\repos\MikroSDN\MikroSDN\obj\Debug\net8.0-windows\MikroSDN.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\2222068\source\repos\MikroSDN\MikroSDN\obj\Debug\net8.0-windows\MikroSDN.AssemblyInfoInputs.cache
+C:\Users\2222068\source\repos\MikroSDN\MikroSDN\obj\Debug\net8.0-windows\MikroSDN.AssemblyInfo.cs
+C:\Users\2222068\source\repos\MikroSDN\MikroSDN\obj\Debug\net8.0-windows\MikroSDN.csproj.CoreCompileInputs.cache

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MikroSDN.Models
 {
-    internal class InterfaceModel
+    public class InterfaceModel
     {
         public string name { get; set; }
         public string type { get; set; }

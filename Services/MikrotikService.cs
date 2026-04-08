@@ -1,8 +1,10 @@
 ﻿using MikroSDN.Helpers;
 using MikroSDN.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,41 +16,80 @@ namespace MikroSDN.Services
 
         public MikrotikService(RouterDevice device)
         {
-            _client = new HttpClient();
-            _client.BaseAddress = new Uri(device.BaseUrl);
+            _client = new HttpClient
+            {
+                BaseAddress = new Uri(device.BaseUrl)
+            };
+
             _client.DefaultRequestHeaders.Authorization =
                 AuthHelper.GetAuthHeader(device.Username, device.Password);
         }
 
-        public async Task<string> GetAsync(string endpoint)
+        // GET
+        public async Task<T> GetAsync<T>(string endpoint)
         {
             var response = await _client.GetAsync(endpoint);
-            return await response.Content.ReadAsStringAsync();
+
+            await HandleErrors(response);
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
-        public async Task<string> PostAsync(string endpoint, string json)
+        // POST
+        public async Task<T> PostAsync<T>(string endpoint, object data)
         {
-            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            var json = JsonConvert.SerializeObject(data);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
             var response = await _client.PostAsync(endpoint, content);
-            return await response.Content.ReadAsStringAsync();
+
+            await HandleErrors(response);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(result);
         }
 
-        public async Task<string> PatchAsync(string endpoint, string json)
+        // PATCH
+        public async Task<T> PatchAsync<T>(string endpoint, object data)
         {
-            var method = new HttpMethod("PATCH");
-            var request = new HttpRequestMessage(method, endpoint)
+            var json = JsonConvert.SerializeObject(data);
+
+            var request = new HttpRequestMessage(new HttpMethod("PATCH"), endpoint)
             {
-                Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
+                Content = new StringContent(json, Encoding.UTF8, "application/json")
             };
 
             var response = await _client.SendAsync(request);
-            return await response.Content.ReadAsStringAsync();
+
+            await HandleErrors(response);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(result);
         }
 
-        public async Task<string> DeleteAsync(string endpoint)
+        // DELETE
+        public async Task<bool> DeleteAsync(string endpoint)
         {
             var response = await _client.DeleteAsync(endpoint);
-            return await response.Content.ReadAsStringAsync();
+
+            await HandleErrors(response);
+
+            return response.StatusCode == HttpStatusCode.OK;
+        }
+
+        // Tratamento de erros
+        private async Task HandleErrors(HttpResponseMessage response)
+        {
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Erro API ({response.StatusCode}): {error}");
+            }
         }
     }
 }

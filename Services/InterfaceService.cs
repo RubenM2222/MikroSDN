@@ -17,15 +17,14 @@ namespace MikroSDN.Services
             _api = api;
         }
 
-        public async Task<List<InterfaceModel>> GetAllInterfaces()
+        public Task<List<InterfaceModel>> GetAll()
         {
-            var json = await _api.GetAsync("interface");
-            return JsonConvert.DeserializeObject<List<InterfaceModel>>(json);
+            return _api.GetAsync<List<InterfaceModel>>("interface");
         }
 
-        public async Task<string> GetWirelessInterfaces()
+        public Task<List<InterfaceModel>> GetWireless()
         {
-            return await _api.GetAsync("interface/wireless");
+            return _api.GetAsync<List<InterfaceModel>>("interface/wireless");
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MikroSDN.Models
 {
-    internal class RouterDevice
+    public class RouterDevice
     {
         public string Name { get; set; }
         public string IP { get; set; }

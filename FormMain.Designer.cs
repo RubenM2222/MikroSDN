@@ -29,6 +29,14 @@
         private void InitializeComponent()
         {
             panelMenu = new Panel();
+            btnSecurityProfiles = new Button();
+            btnRoutes = new Button();
+            btnBridges = new Button();
+            btnDhcp = new Button();
+            btnDns = new Button();
+            btnWireless = new Button();
+            btnIPs = new Button();
+            btnInterfaces = new Button();
             comboRouters = new ComboBox();
             btnAddRouter = new Button();
             dataGridViewMain = new DataGridView();
@@ -37,16 +45,97 @@
             btnDelete = new Button();
             btnRefresh = new Button();
             button1 = new Button();
+            panelMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewMain).BeginInit();
             SuspendLayout();
             // 
             // panelMenu
             // 
             panelMenu.BackColor = Color.LightGray;
+            panelMenu.Controls.Add(btnSecurityProfiles);
+            panelMenu.Controls.Add(btnRoutes);
+            panelMenu.Controls.Add(btnBridges);
+            panelMenu.Controls.Add(btnDhcp);
+            panelMenu.Controls.Add(btnDns);
+            panelMenu.Controls.Add(btnWireless);
+            panelMenu.Controls.Add(btnIPs);
+            panelMenu.Controls.Add(btnInterfaces);
             panelMenu.Location = new Point(12, 12);
             panelMenu.Name = "panelMenu";
             panelMenu.Size = new Size(140, 426);
             panelMenu.TabIndex = 0;
+            // 
+            // btnSecurityProfiles
+            // 
+            btnSecurityProfiles.Location = new Point(17, 377);
+            btnSecurityProfiles.Name = "btnSecurityProfiles";
+            btnSecurityProfiles.Size = new Size(105, 23);
+            btnSecurityProfiles.TabIndex = 7;
+            btnSecurityProfiles.Text = "Security Profiles";
+            btnSecurityProfiles.UseVisualStyleBackColor = true;
+            // 
+            // btnRoutes
+            // 
+            btnRoutes.Location = new Point(32, 321);
+            btnRoutes.Name = "btnRoutes";
+            btnRoutes.Size = new Size(75, 23);
+            btnRoutes.TabIndex = 6;
+            btnRoutes.Text = "Routes";
+            btnRoutes.UseVisualStyleBackColor = true;
+            // 
+            // btnBridges
+            // 
+            btnBridges.Location = new Point(32, 274);
+            btnBridges.Name = "btnBridges";
+            btnBridges.Size = new Size(75, 23);
+            btnBridges.TabIndex = 5;
+            btnBridges.Text = "Bridges";
+            btnBridges.UseVisualStyleBackColor = true;
+            // 
+            // btnDhcp
+            // 
+            btnDhcp.Location = new Point(32, 225);
+            btnDhcp.Name = "btnDhcp";
+            btnDhcp.Size = new Size(75, 23);
+            btnDhcp.TabIndex = 4;
+            btnDhcp.Text = "DHCP";
+            btnDhcp.UseVisualStyleBackColor = true;
+            // 
+            // btnDns
+            // 
+            btnDns.Location = new Point(32, 176);
+            btnDns.Name = "btnDns";
+            btnDns.Size = new Size(75, 23);
+            btnDns.TabIndex = 3;
+            btnDns.Text = "DNS";
+            btnDns.UseVisualStyleBackColor = true;
+            // 
+            // btnWireless
+            // 
+            btnWireless.Location = new Point(32, 130);
+            btnWireless.Name = "btnWireless";
+            btnWireless.Size = new Size(75, 23);
+            btnWireless.TabIndex = 2;
+            btnWireless.Text = "Wireless";
+            btnWireless.UseVisualStyleBackColor = true;
+            // 
+            // btnIPs
+            // 
+            btnIPs.Location = new Point(32, 84);
+            btnIPs.Name = "btnIPs";
+            btnIPs.Size = new Size(75, 23);
+            btnIPs.TabIndex = 1;
+            btnIPs.Text = "IPs";
+            btnIPs.UseVisualStyleBackColor = true;
+            // 
+            // btnInterfaces
+            // 
+            btnInterfaces.Location = new Point(32, 38);
+            btnInterfaces.Name = "btnInterfaces";
+            btnInterfaces.Size = new Size(75, 23);
+            btnInterfaces.TabIndex = 0;
+            btnInterfaces.Text = "Interfaces";
+            btnInterfaces.UseVisualStyleBackColor = true;
             // 
             // comboRouters
             // 
@@ -124,7 +213,7 @@
             // 
             // FormMain
             // 
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(807, 450);
             Controls.Add(button1);
             Controls.Add(btnRefresh);
             Controls.Add(btnDelete);
@@ -137,6 +226,7 @@
             Name = "FormMain";
             Text = "MikroSDN Controller";
             Load += FormMain_Load;
+            panelMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridViewMain).EndInit();
             ResumeLayout(false);
         }
@@ -152,5 +242,13 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnRefresh;
         private Button button1;
+        private Button btnDns;
+        private Button btnWireless;
+        private Button btnIPs;
+        private Button btnInterfaces;
+        private Button btnBridges;
+        private Button btnDhcp;
+        private Button btnRoutes;
+        private Button btnSecurityProfiles;
     }
 }

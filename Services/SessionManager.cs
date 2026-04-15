@@ -31,7 +31,6 @@ namespace MikroSDN.Services
 
             // 4. Criamos a pasta AppData na raiz do projeto
             string folderPath = Path.Combine(rootPath, "AppData");
-            MessageBox.Show("Caminho do ficheiro: " + folderPath);
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);

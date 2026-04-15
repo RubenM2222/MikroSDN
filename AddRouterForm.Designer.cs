@@ -28,68 +28,115 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblName = new System.Windows.Forms.Label();
-            this.lblIP = new System.Windows.Forms.Label();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.txtIP = new System.Windows.Forms.TextBox();
-            this.txtUsername = new System.Windows.Forms.TextBox();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            lblName = new Label();
+            lblIP = new Label();
+            lblUsername = new Label();
+            lblPassword = new Label();
+            txtName = new TextBox();
+            txtIP = new TextBox();
+            txtUsername = new TextBox();
+            txtPassword = new TextBox();
+            btnSave = new Button();
+            btnCancel = new Button();
+            SuspendLayout();
             // 
-            // Labels
+            // lblName
             // 
-            this.lblName.Text = "Nome:";
-            this.lblName.Location = new System.Drawing.Point(12, 15);
-            this.lblIP.Text = "IP:";
-            this.lblIP.Location = new System.Drawing.Point(12, 45);
-            this.lblUsername.Text = "Username:";
-            this.lblUsername.Location = new System.Drawing.Point(12, 75);
-            this.lblPassword.Text = "Password:";
-            this.lblPassword.Location = new System.Drawing.Point(12, 105);
+            lblName.Location = new Point(12, 15);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(82, 23);
+            lblName.TabIndex = 0;
+            lblName.Text = "Nome:";
             // 
-            // TextBoxes
+            // lblIP
             // 
-            this.txtName.Location = new System.Drawing.Point(100, 12);
-            this.txtName.Width = 200;
-            this.txtIP.Location = new System.Drawing.Point(100, 42);
-            this.txtIP.Width = 200;
-            this.txtUsername.Location = new System.Drawing.Point(100, 72);
-            this.txtUsername.Width = 200;
-            this.txtPassword.Location = new System.Drawing.Point(100, 102);
-            this.txtPassword.Width = 200;
-            this.txtPassword.PasswordChar = '*';
+            lblIP.Location = new Point(12, 45);
+            lblIP.Name = "lblIP";
+            lblIP.Size = new Size(68, 23);
+            lblIP.TabIndex = 2;
+            lblIP.Text = "IP:";
             // 
-            // Buttons
+            // lblUsername
             // 
-            this.btnSave.Text = "Salvar";
-            this.btnSave.Location = new System.Drawing.Point(100, 140);
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            this.btnCancel.Text = "Cancelar";
-            this.btnCancel.Location = new System.Drawing.Point(200, 140);
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            lblUsername.Location = new Point(12, 75);
+            lblUsername.Name = "lblUsername";
+            lblUsername.Size = new Size(82, 23);
+            lblUsername.TabIndex = 4;
+            lblUsername.Text = "Username:";
             // 
-            // Form
+            // lblPassword
             // 
-            this.ClientSize = new System.Drawing.Size(320, 180);
-            this.Controls.Add(this.lblName);
-            this.Controls.Add(this.txtName);
-            this.Controls.Add(this.lblIP);
-            this.Controls.Add(this.txtIP);
-            this.Controls.Add(this.lblUsername);
-            this.Controls.Add(this.txtUsername);
-            this.Controls.Add(this.lblPassword);
-            this.Controls.Add(this.txtPassword);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnCancel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "AddRouterForm";
-            this.Text = "Adicionar Router";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            lblPassword.Location = new Point(12, 105);
+            lblPassword.Name = "lblPassword";
+            lblPassword.Size = new Size(82, 23);
+            lblPassword.TabIndex = 6;
+            lblPassword.Text = "Password:";
+            // 
+            // txtName
+            // 
+            txtName.Location = new Point(100, 12);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(200, 23);
+            txtName.TabIndex = 1;
+            // 
+            // txtIP
+            // 
+            txtIP.Location = new Point(100, 42);
+            txtIP.Name = "txtIP";
+            txtIP.Size = new Size(200, 23);
+            txtIP.TabIndex = 3;
+            // 
+            // txtUsername
+            // 
+            txtUsername.Location = new Point(100, 72);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(200, 23);
+            txtUsername.TabIndex = 5;
+            // 
+            // txtPassword
+            // 
+            txtPassword.Location = new Point(100, 102);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '*';
+            txtPassword.Size = new Size(200, 23);
+            txtPassword.TabIndex = 7;
+            // 
+            // btnSave
+            // 
+            btnSave.Location = new Point(100, 140);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(75, 23);
+            btnSave.TabIndex = 8;
+            btnSave.Text = "Salvar";
+            btnSave.Click += btnSave_Click;
+            // 
+            // btnCancel
+            // 
+            btnCancel.Location = new Point(200, 140);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(75, 23);
+            btnCancel.TabIndex = 9;
+            btnCancel.Text = "Cancelar";
+            btnCancel.Click += btnCancel_Click;
+            // 
+            // AddRouterForm
+            // 
+            ClientSize = new Size(320, 180);
+            Controls.Add(lblName);
+            Controls.Add(txtName);
+            Controls.Add(lblIP);
+            Controls.Add(txtIP);
+            Controls.Add(lblUsername);
+            Controls.Add(txtUsername);
+            Controls.Add(lblPassword);
+            Controls.Add(txtPassword);
+            Controls.Add(btnSave);
+            Controls.Add(btnCancel);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Name = "AddRouterForm";
+            Text = "Adicionar Router";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

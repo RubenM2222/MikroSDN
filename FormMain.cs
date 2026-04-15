@@ -15,22 +15,33 @@ namespace MikroSDN
         public FormMain()
         {
             InitializeComponent();
+
+            // Eventos
+            this.Load += FormMain_Load;
             comboRouters.SelectedIndexChanged += ComboRouters_SelectedIndexChanged;
             btnAddRouter.Click += BtnAddRouter_Click;
+
             btnAdd.Click += CrudButton_Click;
             btnEdit.Click += CrudButton_Click;
             btnDelete.Click += CrudButton_Click;
             btnRefresh.Click += CrudButton_Click;
         }
-        private async void FormMain_Load(object sender, EventArgs e)
+
+        private void FormMain_Load(object sender, EventArgs e)
         {
-            // Inicializa ComboBox com routers
+            RefreshRoutersDropdown();
+        }
+
+        private void RefreshRoutersDropdown()
+        {
+            comboRouters.DataSource = null;
             comboRouters.DataSource = RouterRepository.Routers;
             comboRouters.DisplayMember = "Name";
 
             if (comboRouters.Items.Count > 0)
                 comboRouters.SelectedIndex = 0;
         }
+
         private void ComboRouters_SelectedIndexChanged(object sender, EventArgs e)
         {
             _currentRouter = comboRouters.SelectedItem as RouterDevice;
@@ -47,7 +58,7 @@ namespace MikroSDN
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    // O form de cadastro deve adicionar o novo router à lista RouterRepository.Routers
+                    // O form de cadastro deve adicionar o novo router ï¿½ lista RouterRepository.Routers
                     // antes de retornar DialogResult.OK
 
                     // 2. Salvar a lista atualizada no ficheiro JSON
@@ -57,6 +68,8 @@ namespace MikroSDN
                     AtualizarCombo();
 
                     MessageBox.Show("Router guardado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RefreshRoutersDropdown();
+                    comboRouters.SelectedIndex = RouterRepository.Routers.Count - 1; // Seleciona novo router
                 }
             }
         }
@@ -71,22 +84,22 @@ namespace MikroSDN
                 return;
             }
 
-            // 2. Confirmação
+            // 2. Confirmaï¿½ï¿½o
             var confirm = MessageBox.Show($"Deseja apagar o router '{selected.Name}'?", "Confirmar",
                                           MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (confirm == DialogResult.Yes)
             {
-                // 3. Remover da lista estática
+                // 3. Remover da lista estï¿½tica
                 RouterRepository.Routers.Remove(selected);
 
-                // 4. Salvar no ficheiro JSON para não voltar a aparecer ao reiniciar
+                // 4. Salvar no ficheiro JSON para nï¿½o voltar a aparecer ao reiniciar
                 SessionManager.SaveSessions(RouterRepository.Routers);
 
                 // 5. Atualizar a interface
                 AtualizarCombo();
 
-                // 6. Limpar o Grid se não houver mais routers
+                // 6. Limpar o Grid se nï¿½o houver mais routers
                 if (RouterRepository.Routers.Count == 0)
                 {
                     dataGridViewMain.DataSource = null;
@@ -96,19 +109,40 @@ namespace MikroSDN
             }
         }
 
-        private void CrudButton_Click(object sender, EventArgs e)
+        private async void LoadCurrentTabData()
         {
+            if (_currentRouter == null) return;
+
+            try
+            {
+                // Exemplo com IPs, expandir para Interfaces, DHCP, etc.
+                var ipService = new IpService(_api);
+                var ips = await ipService.GetAll();
+
+                dataGridViewMain.DataSource = ips;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao carregar dados: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void CrudButton_Click(object sender, EventArgs e)
+        {
+            if (_currentRouter == null) return;
+
             var btn = sender as Button;
+
             switch (btn.Text)
             {
                 case "Add":
-                    MessageBox.Show("Adicionar item");
+                    await AddItemAsync();
                     break;
                 case "Edit":
-                    MessageBox.Show("Editar item");
+                    await EditItemAsync();
                     break;
                 case "Delete":
-                    MessageBox.Show("Apagar item");
+                    await DeleteItemAsync();
                     break;
                 case "Refresh":
                     LoadCurrentTabData();
@@ -116,30 +150,66 @@ namespace MikroSDN
             }
         }
 
-        private async void LoadCurrentTabData()
+        // -----------------------------
+        // Mï¿½todos Async para CRUD IPs
+        // -----------------------------
+        private async Task AddItemAsync()
         {
-            if (_currentRouter == null) return;
+            if (_api == null) return;
 
-            var ipService = new IpService(_api);
-            try
+            using (var form = new AddEditIPForm()) // Criar formulï¿½rio para Add IP
             {
-                var ips = await ipService.GetAll();
-                dataGridViewMain.DataSource = ips;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao carregar dados: " + ex.Message);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    var ipService = new IpService(_api);
+                    await ipService.Create(form.IpModel.address, form.IpModel.@interface);
+                    LoadCurrentTabData();
+                }
             }
         }
 
-        // Funçoes auxiliares
+        private async Task EditItemAsync()
+        {
+            if (_api == null || dataGridViewMain.CurrentRow == null) return;
+
+            var selected = dataGridViewMain.CurrentRow.DataBoundItem as IpAddressModel;
+            if (selected == null) return;
+
+            using (var form = new AddEditIPForm(selected)) // Form para editar
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    var ipService = new IpService(_api);
+                    await ipService.Update(form.IpModel.address, form.IpModel.disabled == "true");
+                    LoadCurrentTabData();
+                }
+            }
+        }
+
+        private async Task DeleteItemAsync()
+        {
+            if (_api == null || dataGridViewMain.CurrentRow == null) return;
+
+            var selected = dataGridViewMain.CurrentRow.DataBoundItem as InterfaceModel; // ou IpModel
+            if (selected == null) return;
+
+            if (MessageBox.Show("Deseja realmente apagar este item?", "Confirmar",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                var ipService = new IpService(_api);
+                await ipService.Delete(selected.name); // ou selected.Name
+                LoadCurrentTabData();
+            }
+        }
+
+        // Funï¿½oes auxiliares
         private void AtualizarCombo()
         {
             comboRouters.DataSource = null; // Reset
             comboRouters.DataSource = RouterRepository.Routers;
             comboRouters.DisplayMember = "Name";
 
-            // Opcional: Selecionar o último item se a lista não estiver vazia
+            // Opcional: Selecionar o ï¿½ltimo item se a lista nï¿½o estiver vazia
             if (comboRouters.Items.Count > 0)
                 comboRouters.SelectedIndex = comboRouters.Items.Count - 1;
         }
